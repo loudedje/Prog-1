@@ -40,14 +40,14 @@ public class CadastroVeiculos {
     private boolean buscarPorPlaca(String placa) throws SQLException{
         String sql = "SELECT  * FROM veiculos WHERE placa = ?";
         try{
-              System.out.println("Cebolinha");
+              //System.out.println("Cebolinha");
             PreparedStatement pstmt = Conexao.getConnection().prepareStatement(sql);
-            System.out.println("Depois do statement");
+            //System.out.println("Depois do statement");
             pstmt.setString(1, placa);
             
-             System.out.println("Antes");
+            // System.out.println("Antes");
             ResultSet result = pstmt.executeQuery();
-            System.out.println("Depois");
+          //  System.out.println("Depois");
             
             boolean placaFlag = false;
             if (result.next()) {
@@ -116,5 +116,3 @@ public class CadastroVeiculos {
     }
     
 }
-
-    
