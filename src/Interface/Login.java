@@ -4,6 +4,14 @@
  */
 package Interface;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author loude
@@ -74,6 +82,12 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField1ActionPerformed(evt);
+            }
+        });
+
         jLabel2.setBackground(new java.awt.Color(0, 102, 102));
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         jLabel2.setText("USUARIO");
@@ -83,6 +97,31 @@ public class Login extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(204, 102, 0));
         jButton2.setText("Entrar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String usuario = jFormattedTextField1.getText();
+                String senha = jPasswordField1.getText();
+                try {
+                    Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/DJauto",
+                        "root", "");
+
+                    PreparedStatement start = (PreparedStatement) connection
+                        .prepareStatement("Select usuario, senha from usuarios where usuario=? and senha=?");
+
+                    start.setString(1, usuario);
+                    start.setString(2, senha);
+                    ResultSet result = start.executeQuery();
+                    if (result.next()) {
+                       TelaDEComprar tela = new TelaDEComprar();
+                       tela.setVisible(true);
+                    } else {
+                        JOptionPane.showInputDialog(this, "Invalido senha e ou usuario ! ");
+                    }
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
